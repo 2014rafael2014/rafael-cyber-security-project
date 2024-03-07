@@ -1,4 +1,5 @@
 # Project Summary
+This assignment is part of the recruitment process for the Cyber Security Engineer at Vio.com. The purpose is to assess the technical skills of the candidates in a generic scenario.
 
 # Infrastructure Provisioning
 This project includes the provisioning of AWS infrastructure, setting up the WireGuard server, and configuring the WireGuard client.
@@ -15,8 +16,12 @@ This project includes the provisioning of AWS infrastructure, setting up the Wir
 
 - Install terraform using requirement-terraform.sh
 ```
-sudo ./requirement-terraform.sh
+chmod +x requirement-terraform.sh
+./requirement-terraform.sh
 ```
+
+Access to an AWS account and the AWS CLI configured.
+SSH key pair for secure access (created during the Terraform provisioning process).
 
 ### Provisioning the Infrastructure
 
