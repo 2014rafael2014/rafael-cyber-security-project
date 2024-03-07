@@ -1,26 +1,21 @@
 #!/bin/bash
 
-# Update package lists
+# Update apt package index and install required dependencies
 sudo apt update
+sudo apt install -y unzip wget
 
-# Install unzip (required to unpack Terraform binary)
-sudo apt install unzip -y
+# Download the latest version of Terraform for Linux/amd64
+TERRAFORM_VERSION=$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep tag_name | cut -d '"' -f 4)
+wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
-# Download the latest stable Terraform binary for Ubuntu amd64 architecture
-LATEST_URL=$(curl -sL https://releases.hashicorp.com/terraform/index.json | jq -r '.versions[].builds[] | select(.os == "linux" and .arch == "amd64") | .url')
-curl -o /tmp/terraform.zip $LATEST_URL
+# Unzip the downloaded package
+unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
-# Extract the downloaded archive
-unzip /tmp/terraform.zip -d /tmp
+# Move Terraform binary to /usr/local/bin directory
+sudo mv terraform /usr/local/bin/
 
-# Move the terraform binary to a directory in your PATH (e.g., /usr/local/bin)
-sudo mv /tmp/terraform /usr/local/bin/
-
-# Check Terraform version to confirm successful installation
+# Verify Terraform installation
 terraform --version
 
-# Optionally, add /usr/local/bin to your PATH permanently (modify if using a different directory)
-# echo 'export PATH=/usr/local/bin:$PATH' >> ~/.bashrc
-# source ~/.bashrc
-
-echo "Terraform installation complete!"
+# Clean up downloaded zip file
+rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
